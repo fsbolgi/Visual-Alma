@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 const name = 'Josh Perez';
 const element = <h1>Hello, {name}</h1>;
 
 ReactDOM.render(
-  element,
+  <App />,
   document.getElementById('root')
 );
 
