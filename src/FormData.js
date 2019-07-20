@@ -24,12 +24,20 @@ class FormData extends Component {
                 <FormControl
                     controlId="formAnno"
                     controlLabel="ANNO"
-                    arrayOptions={[2017, 2016, 2015, 2014, 2013]} />
+                    arrayOptions={[
+                        { name: 2017, val: 2017},
+                        { name: 2016, val: 2016},
+                        { name: 2015, val: 2015},
+                        { name: 2014, val: 2014}]} />
 
                 <FormControl
                     controlId="formAteneo"
                     controlLabel="ATENEO"
-                    arrayOptions={["Bari", "Firenze", "Milano", "Pisa", "Torino"]} />
+                    arrayOptions={[
+                        { name: "Bari", val: 70002},
+                        { name: "Firenze", val: 70010},
+                        { name: "Milano", val: 70015},
+                        { name: "Pisa", val: 70024}]} />
 
                 <Button variant="primary" type="submit">
                     Submit

@@ -12,7 +12,7 @@ class FormControl extends Component {
                 <Form.Label>{controlLabel}</Form.Label>
                 <Form.Control as="select">
                     {arrayOptions.map(op => (
-                        <option>{op}</option>
+                        <option value={op.val} key={op.val}>{op.name}</option>
                     )
                     )}
                 </Form.Control>

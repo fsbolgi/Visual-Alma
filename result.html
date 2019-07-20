@@ -1,0 +1,2113 @@
+<html>
+
+<head>
+    <title>scheda dati profilo</title>
+    <link rel="stylesheet" type="text/css" href="/css/al.css">
+    <link rel="stylesheet" type="text/css" href="scheda.css">
+    <link type="text/css" rel="stylesheet" href="tendine.css">
+    <link type="text/css" rel="stylesheet" href="minitendine.css">
+    <meta http-equiv="content-type" content="text/html;charset=ISO-8859-1">
+    <meta property="fb:app_id" content="191458891023139">
+    <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="jquery.blockUI.js"></script>
+    <script type="text/javascript">
+        function creaPDF(pageTitle, lang) {
+            if (lang === undefined) {
+                lang = "it";
+            }
+
+            if (ncolonne > 5) {
+                document.forms.pdfForm.ORIENTATION.value = "H";
+            }
+
+            if (ncolonne > 15) {
+                if (lang == "en") {
+                    alert("Attention: while printing datasheets with many columns, you may want to select, using the buttons below, only one group of 5 columns and print only that portion");
+                } else {
+                    alert("Attenzione: nella stampa di schede con molte colonne, si consiglia di selezionare con gli appositi pulsanti un solo gruppo di 5 colonne e stampare solo quella parte");
+                }
+            }
+
+            if (pageTitle === undefined) {
+                pageTitle = "";
+            }
+            var baseurl = document.location.protocol + "//" + document.location.host;
+            baseurl += "/cgi-php/universita/statistiche/";
+            document.forms.pdfForm.text2pdf.value = "" + document.documentElement.innerHTML;
+            document.forms.pdfForm.baseURL.value = baseurl;
+            document.forms.pdfForm.PAGETITLE.value = "Scheda_Dati_" + pageTitle;
+            document.forms.pdfForm.submit();
+            return false;
+        }
+    </script>
+</head>
+
+<body onload="sortsetup()">
+    <div id="WzTtDiV" style="visibility: hidden; position: absolute; overflow: hidden; padding: 0px; width: 991px; left: 0px; top: 0px;">
+        <div id="WzBoDy" style="position:relative;z-index:0;">
+            <table cellspacing="0" cellpadding="0" border="0" style="position:relative;margin:0px;padding:0px;border-width:0px;left:0px;top:0px;line-height:normal;width:auto;">
+                <tbody style="position:relative;margin:0px;padding:0px;border-width:0px;left:0px;top:0px;line-height:normal;width:auto;">
+                    <tr>
+                        <td id="WzBoDyI" style="position:relative;margin:0px;padding:0px;border-width:0px;left:0px;top:0px;line-height:normal;width:auto;"><b>Età
+                                alla laurea</b> Il calcolo dell'età media alla laurea tiene conto non solo del numero
+                            (intero) di anni compiuti, ma anche della data di nascita e della data di laurea. Nelle
+                            distribuzioni percentuali per età alla laurea l'età è in anni compiuti.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="WzTtShDwR" style="position:absolute;overflow:hidden;"></div>
+        <div id="WzTtShDwB" style="position:relative;overflow:hidden;"></div>
+    </div>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-12541060-1']);
+        _gaq.push(['_setDomainName', '.almalaurea.it']);
+        _gaq.push(['_addIgnoredRef', 'almalaurea.it']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <div id="pleasewait" style="display:none" class="dialog">Attendere per favore.<br>ordinamento in corso...</div>
+    <div id="divsegnala" style="display:none" class="dialog"></div>
+    <div id="divesportazione" class="dialog" style="display:none;"><b>Esportazione dati per foglio elettronico</b><br>
+        <p style="text-align: left">Impostare il <em>delimitatore</em>, il <em>qualificatore di testo</em> e il <em>separatore
+                decimale</em>, quindi premere ESPORTA. I dati verranno resi disponibili in un formato adatto per
+            l'importazione in un foglio elettronico (formato csv, comma-separated-value).</p>
+        <form name="frmesporta" id="frmesporta" action="downloadcsv.php" method="post"><input type="hidden" name="FILENAME"
+                value="dati_profilo.csv"><input type="hidden" name="CSV" id="CSV"><input type="hidden" name="LANGSHEDA"
+                id="LANGSHEDA" value="it">Delimitatore:&nbsp;<input size="2" id="SEP" name="SEP" value=";">&nbsp;&nbsp;Qualificatore
+            di testo:&nbsp;<input size="2" id="QUOTE" name="QUOTE" value="&quot;"><br><br>Separatore decimale:&nbsp;<input
+                size="2" id="DECSEP" name="DECSEP" value=","><br><br>
+            <div style="text-align: center"><input class="Button" type="button" onclick="OKesporta();" value="ESPORTA">
+                <input class="Button" type="button" onclick="CANCELesporta();" value="ANNULLA"></div>
+        </form>
+    </div>
+    <div id="divgrafico" style="display:block;">
+        <form id="frmgraph" action="grafico.php" method="post" target="_blank"><input type="hidden" name="title"><input
+                type="hidden" name="type"><input type="hidden" name="values"><input type="hidden" name="labels"><input
+                type="hidden" name="titles"><input type="hidden" name="ymin"><input type="hidden" name="ymax"><input
+                type="hidden" name="cols"><input type="hidden" name="table"><input type="hidden" name="row"><input type="hidden"
+                name="col"><input type="hidden" name="first"><input type="hidden" name="rowset"></form>
+    </div>
+    <div id="cambiacoll" class="titoloSelezione" style="display:none;">
+        <div style="margin-bottom: 2px; text-align: right"><a href="#" onclick="annullacambio();return false;">annulla</a></div>
+        <div id="tendine"></div>
+    </div>
+    <div id="collettivo" class="titoloSelezione">
+        <div style="margin-bottom: 2px; text-align: right"><a href="#" onmouseover="Tip('permette di modificare i criteri di selezione del collettivo e operare una diversa scelta in colonne di confronto',WIDTH,300,SHADOW, true);"
+                onmouseout="UnTip();" onclick="cambiacollettivo(&quot;anno=2017&amp;corstipo=LS&amp;ateneo=70010&amp;facolta=1250&amp;gruppo=tutti&amp;pa=70010&amp;classe=11023&amp;corso=tutti&amp;postcorso=0480107301900001&amp;isstella=0&amp;disaggregazione=tutti&amp;LANG=it&amp;CONFIG=profilo&quot;);return false;">cambia</a></div>
+        <h2>Collettivo Selezionato:</h2>
+        <div style="background-image:url(/img/logo/70010.gif);background-repeat:no-repeat;padding-left: 120px;margin-top:5px;min-height: 120px">
+            anno di laurea: 2017
+            <br>tipo di corso: laurea magistrale biennale
+            <br>Ateneo: Firenze
+            <br>Facoltà/Dipartimento/Scuola: Scienze matematiche, fisiche e naturali (Scuola)
+            <br>gruppo disciplinare: tutti
+            <br>classe di laurea: informatica (LM-18, 23/S)
+            <br>corso di laurea: informatica (LM-18)
+        </div>
+    </div>
+    <div class="noteIntestazione" style="display: none; float: left;" id="aiuto">
+        <!-- HELP IN ITALIANO PER IL PROFILO -->
+        <div id="helpselezionecollettivo">
+            <div class="helplabel" onclick="helpreload('helpselezionecollettivo');"><b>Selezione del collettivo</b></div>
+            <div class="helptext">È possibile limitare l'analisi a particolari collettivi selezionati ad es. in base al
+                tipo di corso, all'Ateneo, al gruppo disciplinare e, se attive, alla Facoltà/Dipartimento/Scuola, alla
+                classe o corso di laurea.
+            </div>
+        </div>
+
+        <div id="helpcolonneconfronto" class="nocompact">
+            <div class="helplabel" onclick="helpreload('helpcolonneconfronto');"><b>Colonne di confronto</b></div>
+            <div class="helptext">Dopo aver selezionato il collettivo da analizzare è possibile suddividerlo
+                in base ad un'ulteriore variabile, scelta tra quelle disponibili (ad es. genere, lavoro durante gli
+                studi)
+                ed operare così un confronto diretto.
+            </div>
+        </div>
+
+        <div id="helpisstella" style="display:none">
+            <div class="helplabel" onclick="helpreload('helpisstella');"><b>Indagine</b></div>
+            <div class="helptext">È possibile consultare la scheda limitatamente ai laureati degli atenei aderenti,
+                nell’anno di indagine,
+                al Consorzio AlmaLaurea o all’iniziativa Vulcano-Stella o al complesso dei laureati aderenti ai due
+                Consorzi.</div>
+        </div>
+
+
+        <div id="helpanno">
+            <div class="helplabel" onclick="helpreload('helpanno');"><b>Anno di laurea</b></div>
+            <div class="helptext">
+                È possibile scegliere un singolo anno di laurea oppure effettuare un confronto storico selezionando la
+                voce "tutti".
+                La serie storica fa riferimento ai soli corsi/classi di laurea che hanno laureati nell'ultimo anno.
+            </div>
+        </div>
+
+        <div id="helptipocorso">
+            <div class="helplabel" onclick="helpreload('helptipocorso');"><b>Tipo di corso</b></div>
+            <div class="helptext">
+                La scelta del tipo di corso di laurea condiziona la possibilità di utilizzare ulteriori variabili di
+                selezione o di confronto (ad es. classe di laurea è disponibile solo per i post-riforma).
+            </div>
+        </div>
+
+        <!--? if (MOSTRA_REGIONE) { ?-->
+        <div id="helpdimensioneateneo">
+            <div class="helplabel" onclick="helpreload('helpdimensioneateneo');"><b>Dimensione dell'ateneo</b></div>
+            <div class="helptext">
+                A partire dai laureati 2017, la classificazione degli atenei rispetto alla dimensione si basa sulla
+                documentazione MIUR relativa agli iscritti nell'a.a. 2016/17 e non più sugli iscritti nell'a.a.
+                2010/11.
+            </div>
+        </div>
+        <!--? } ?-->
+
+        <div id="helpfacolta">
+            <div class="helplabel" onclick="helpreload('helpfacolta');"><b>Facoltà/Dipartimento/Scuola</b></div>
+            <div class="helptext">
+                L'informazione è disponibile solo dopo aver operato una scelta a livello di Ateneo.
+                Nella descrizione della struttura viene specificato fra parentesi se si tratta di una Facoltà (Fac.),
+                di un Dipartimento (Dip.) o di una Scuola (Scuola).
+            </div>
+        </div>
+
+        <div id="helpgruppo">
+            <div class="helplabel" onclick="helpreload('helpgruppo');"><b>Gruppo Disciplinare</b></div>
+            <div class="helptext">
+                A partire dai laureati 2014, le classi di laurea in geografia (L-6, 30) e in scienze geografiche
+                (LM-80, 21/S) rientrano nel gruppo disciplinare "letterario" e non più nel "geo-biologico".
+            </div>
+        </div>
+
+        <div id="helpclasse">
+            <div class="helplabel" onclick="helpreload('helpclasse');"><b>Classe di laurea</b></div>
+            <div class="helptext">
+                L'informazione è disponibile solo per i laureati post-riforma.
+                Tra parentesi è indicato il codice MIUR della classe di laurea (secondo quanto disposto dal D.M. 509/99
+                e successivo D.M. 270/04).
+            </div>
+        </div>
+
+        <!--? if (MOSTRA_STELLA) { ?-->
+        <div id="helpaggregacodicione" class="nocompact">
+            <div class="helplabel" onclick="helpreload('helpaggregacodicione');"><b>Aggrega corsi 270 - 509</b></div>
+            <div class="helptext">
+                Consente di consultare la scheda di un determinato corso di laurea riferita ai laureati del corso
+                dell’ordinamento 270 selezionato,
+                unitamente ai laureati dei corrispondenti corsi dell’ordinamento 509. Tale associazione deriva dalle
+                indicazioni fornite dagli atenei.
+            </div>
+        </div>
+        <!--? } ?-->
+
+        <div id="helpcorso">
+            <div class="helplabel" onclick="helpreload('helpcorso');"><b>Corso di laurea</b></div>
+            <div class="helptext">Per i laureati post-riforma, la variabile associa un codice univoco ad ogni singolo
+                corso di laurea attivato
+                presso un determinato Ateneo (codice della banca dati dell'offerta formativa Off.F.): pertanto, è
+                selezionabile solo dopo aver operato una scelta a livello di tipo di corso e Ateneo e almeno una
+                variabile tra Facoltà/Dipartimento/Scuola, gruppo disciplinare o classe di laurea. Tra parentesi è
+                indicato il codice MIUR della classe di laurea di appartenenza.
+            </div>
+        </div>
+
+        <div id="helpcorsopre">
+            <div class="helplabel" onclick="helpreload('helpcorsopre');"><b>Corso di laurea (<em>pre-riforma</em>)</b></div>
+            <div class="helptext">L'informazione è disponibile solo dopo aver selezionato "altro corso pre-riforma" a
+                livello di tipo di corso.</div>
+        </div>
+
+
+
+        <div id="helpvisualizza" class="nocompact">
+            <div class="helplabel" onclick="helpreload('helpvisualizza');"><b>Visualizza</b></div>
+            <div class="helptext">Il tasto permette di visualizzare la scheda-dati, che sarà aperta in una nuova
+                finestra.
+                Se quest'ultima non appare, verificare che non siano attivi meccanismi di blocco dei popup o che
+                la finestra non sia stata inavvertitamente portata in secondo piano.
+            </div>
+        </div>
+
+        <div id="helpreset">
+            <div class="helplabel" onclick="helpreload('helpreset');"><b>Reset</b></div>
+            <div class="helptext">Il tasto permette
+                di azzerare le scelte precedentemente fatte. Questo può essere utile in taluni casi per
+                visualizzare correttamente nuove schede.
+            </div>
+        </div>
+        <!-- FINE HELP IN ITALIANO PER IL PROFILO -->
+    </div>
+    <div class="noteIntestazione" style="float: left;">
+        <div>
+            <br><br>Per una migliore lettura dei dati si consultino le <a onclick="popup(this.href);return false;" href="note-metodologiche.php?lang=it&amp;config=profilo&amp;anno=2017">note
+                metodologiche</a><br><br>Salvo diversa indicazione, si autorizza la riproduzione a fini non commerciali
+            e con citazione della fonte<br><br>I risultati presentati nelle sezioni 4, 5, 6 e 7 per i laureati nelle
+            lauree magistrali (3+2) fanno riferimento al solo biennio magistrale</div>
+    </div>
+
+
+    <div id="scheda">
+
+        <table id="dati1" summary="PROFILO DEI LAUREATI" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo1">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione">PROFILO DEI LAUREATI</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore1">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- numlau -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Numero dei laureati <img alt="sort" id="sorticon_0_3" src="spacer.gif" border="0"
+                            width="12" height="12"></th>
+                    <td class="datobold">1</td>
+                </tr><!-- numques -->
+
+                <tr class="gruppoodd">
+                    <th colspan="1">Hanno compilato il questionario <img alt="sort" id="sorticon_0_4" src="spacer.gif"
+                            border="0" width="12" height="12"></th>
+                    <td class="datobold">1</td>
+                </tr><!-- numques/numlau -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Tasso di compilazione <img alt="sort" id="sorticon_0_5" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="datobold">100,0</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati2" summary="1. ANAGRAFICO" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo2">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione1">1. ANAGRAFICO</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore2">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- riga_genere -->
+
+                <tr class="gruppoeven">
+                    <th>Genere (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- sesso_1/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Uomini <img alt="sort" id="sorticon_1_4" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sesso_2/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Donne <img alt="sort" id="sorticon_1_5" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- etalau -->
+
+                <tr class="gruppoodd">
+                    <th>Età alla laurea (%)<span onmouseover="Tip('<b>Età alla laurea</b> Il calcolo dell\'età media alla laurea tiene conto non solo del numero (intero) di anni compiuti, ma anche della data di nascita e della data di laurea. Nelle distribuzioni percentuali per età alla laurea l\'età è in anni compiuti.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- etai_1/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Meno di 23 anni <img alt="sort" id="sorticon_1_7" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- etai_2/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">23-24 anni <img alt="sort" id="sorticon_1_8" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- etai_3/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">25-26 anni <img alt="sort" id="sorticon_1_9" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- etai_4/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">27 anni e oltre <img alt="sort" id="sorticon_1_10" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- etam -->
+
+                <tr class="voceboldeven">
+                    <th colspan="1">Età alla laurea (medie, in anni) <img alt="sort" id="sorticon_1_11" src="spacer.gif"
+                            border="0" width="12" height="12"></th>
+                    <td class="datobold">*</td>
+                </tr><!-- stranieri/numlau -->
+
+                <tr class="gruppoodd">
+                    <th colspan="1">Cittadini stranieri (%)<span onmouseover="Tip('<b>Cittadini stranieri</b> Nel conteggio dei cittadini stranieri non sono compresi i laureati cittadini della Repubblica di San Marino.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_1_12" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- residenza -->
+
+                <tr class="gruppoeven">
+                    <th>Residenza (%)<span onmouseover="Tip('<b>Residenza</b> Ai fini della classificazione dei laureati in base alla residenza e alla sede degli studi, si è tenuto conto della sede del corso anziché della sede centrale dell’Ateneo.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- resi_1/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Stessa provincia della sede degli studi <img alt="sort" id="sorticon_1_14" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- resi_2/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Altra provincia della stessa regione <img alt="sort" id="sorticon_1_15" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- resi_3/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Altra regione <img alt="sort" id="sorticon_1_16" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- resi_4/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Estero <img alt="sort" id="sorticon_1_17" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati3" summary="2. ORIGINE SOCIALE" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo3">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione2">2. ORIGINE SOCIALE</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore3">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- titologenitori -->
+
+                <tr class="gruppoeven">
+                    <th>Titolo di studio dei genitori (%)<span onmouseover="Tip('<b>Titolo di studio dei genitori</b> Per la definizione del titolo di studio dei genitori cfr. le Note metodologiche.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- titg_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Entrambi con laurea <img alt="sort" id="sorticon_2_4" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- titg_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Uno solo con laurea <img alt="sort" id="sorticon_2_5" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- titg_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Scuola media superiore <img alt="sort" id="sorticon_2_6" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- titg_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Titoli inferiori o nessun titolo <img alt="sort" id="sorticon_2_7" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- classesociale -->
+
+                <tr class="gruppoodd">
+                    <th>Classe sociale (%)<span onmouseover="Tip('<b>Classe sociale</b> Per la definizione della classe sociale cfr. le Note metodologiche. ',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- classoc_1/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Classe elevata <img alt="sort" id="sorticon_2_9" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- classoc_2/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Classe media impiegatizia <img alt="sort" id="sorticon_2_10" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- classoc_3/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Classe media autonoma <img alt="sort" id="sorticon_2_11" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- classoc_4/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Classe del lavoro esecutivo <img alt="sort" id="sorticon_2_12" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati4" summary="3. STUDI SECONDARI SUPERIORI" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo4">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione3">3. STUDI SECONDARI
+                            SUPERIORI</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore4">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- diploma -->
+
+                <tr class="gruppoeven">
+                    <th>Diploma (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- tipm_1/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Liceo classico <img alt="sort" id="sorticon_3_4" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tipm_4/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Liceo linguistico <img alt="sort" id="sorticon_3_5" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tipm_2/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Liceo scientifico <img alt="sort" id="sorticon_3_6" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tipm_3/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Liceo socio-psico-pedagogico o ist. magistrale <img alt="sort" id="sorticon_3_7"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tipm_6/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Tecnico <img alt="sort" id="sorticon_3_8" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tipm_11/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Professionale <img alt="sort" id="sorticon_3_9" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tipm_5/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Istruzione artistica <img alt="sort" id="sorticon_3_10" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tipm_13/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Titolo estero <img alt="sort" id="sorticon_3_11" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- vdpm -->
+
+                <tr class="gruppoodd">
+                    <th colspan="1">Voto di diploma (medie, in 100-mi)<span onmouseover="Tip('<b>Voto di diploma</b> Il voto di diploma (di cui vengono riportati i valori medi) è calcolato per i titoli conseguiti in Italia ed è espresso in 100-mi anche per i laureati che si sono diplomati prima del 1999, conseguendo voti in 60-mi.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_3_12" src="spacer.gif" border="0" width="12" height="12"></th>
+                    <td class="datobold">*</td>
+                </tr><!-- diplomadove -->
+
+                <tr class="gruppoeven">
+                    <th>Hanno conseguito il diploma (%)<span onmouseover="Tip('<b>Hanno conseguito il diploma</b> Per il luogo di conseguimento del diploma, dalle categorie “al Sud, ma si sono laureati al Centro-Nord”, “al Centro, ma si sono laureati al Nord o al Sud” e “al Nord, ma si sono laureati al Centro-Sud” sono esclusi coloro che hanno concluso la scuola superiore in una provincia limitrofa a quella di laurea.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- migranti_1/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Nella stessa provincia della sede degli studi universitari <img alt="sort" id="sorticon_3_14"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- migranti_2/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">In una provincia limitrofa <img alt="sort" id="sorticon_3_15" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- migranti_3/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">In una provincia non limitrofa, ma nella stessa ripartizione geografica <img alt="sort"
+                            id="sorticon_3_16" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- migranti_4/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Al Sud, ma si sono laureati al Centro-Nord <img alt="sort" id="sorticon_3_17" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- migranti_5/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Al Centro, ma si sono laureati al Nord o al Sud <img alt="sort" id="sorticon_3_18"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- migranti_6/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Al Nord, ma si sono laureati al Centro-Sud <img alt="sort" id="sorticon_3_19" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- migranti_7/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">All'estero <img alt="sort" id="sorticon_3_20" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati5" summary="4. RIUSCITA NEGLI STUDI UNIVERSITARI" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo5">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione4">4. RIUSCITA NEGLI STUDI
+                            UNIVERSITARI</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore5">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- preTot/numques -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Hanno precedenti esperienze universitarie (%)<span onmouseover="Tip('<b>Hanno precedenti esperienze universitarie</b> Nella domanda sulle precedenti esperienze universitarie ai laureati nei corsi magistrali viene chiesto di rispondere indicando il titolo di accesso al biennio magistrale.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_4_3" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- pre1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Portate a termine <img alt="sort" id="sorticon_4_4" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- pre2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Non portate a termine <img alt="sort" id="sorticon_4_5" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- pre3/numques -->
+
+                <tr class="voceboldodd">
+                    <th colspan="1">Nessuna precedente esperienza universitaria <img alt="sort" id="sorticon_4_6" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- motivazioni2 -->
+
+                <tr class="gruppoeven">
+                    <th>Motivazioni molto importanti nella scelta del corso di laurea magistrale (%)<span onmouseover="Tip('<b>Motivazioni molto importanti nella scelta del corso di laurea</b> Per la definizione della variabile “Motivazioni molto importanti nella scelta del corso di laurea” cfr. le Note metodologiche.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- motsint_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Fattori sia culturali sia professionalizzanti <img alt="sort" id="sorticon_4_8" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- motsint_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Fattori prevalentemente culturali <img alt="sort" id="sorticon_4_9" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- motsint_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Fattori prevalentemente professionalizzanti <img alt="sort" id="sorticon_4_10" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- motsint_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Né gli uni né gli altri <img alt="sort" id="sorticon_4_11" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- etaimmatricolazione -->
+
+                <tr class="gruppoodd">
+                    <th>Età all'immatricolazione (%)<span onmouseover="Tip('<b>Età all’immatricolazione</b> I laureati con età all’immatricolazione regolare sono gli studenti entrati all’università entro i 19 anni. Per esempio, è regolare chi è nato nel 1988 (o successivamente) e si è iscritto ad un corso di primo livello o a una laurea magistrale a ciclo unico nel 2007/08. Per i corsi di laurea magistrale l’età regolare all’immatricolazione è stata posta a 22 anni (corrisponde alle carriere di studi completamente regolari sia nel ciclo preuniversitario che nel primo livello).',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- etaimm_1/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Regolare o 1 anno di ritardo <img alt="sort" id="sorticon_4_13" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- etaimm_2/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">2 o più anni di ritardo <img alt="sort" id="sorticon_4_14" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- punt -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Punteggio degli esami (medie, in 30-mi)<span onmouseover="Tip('<b>Punteggio degli esami</b> Per il punteggio degli esami, sia il voto 30 sia il 30 e lode per i singoli esami corrispondono a 30.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_4_15" src="spacer.gif" border="0" width="12" height="12"></th>
+                    <td class="datobold">*</td>
+                </tr><!-- votl -->
+
+                <tr class="gruppoodd">
+                    <th colspan="1">Voto di laurea (medie, in 110-mi)<span onmouseover="Tip('<b>Voto di laurea</b> Il voto di laurea è espresso in 110-mi anche per i laureati pre-riforma della facoltà di Ingegneria dell’Università di Bologna (dove il voto è assegnato in 100-mi); per il calcolo delle medie il voto di 110 e lode è stato posto uguale a 113.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_4_16" src="spacer.gif" border="0" width="12" height="12"></th>
+                    <td class="datobold">*</td>
+                </tr><!-- regostudi -->
+
+                <tr class="gruppoeven">
+                    <th>Regolarità negli studi (%)<span onmouseover="Tip('<b>Regolarità negli studi</b> Per le lauree magistrali, la regolarità negli studi tiene conto del solo biennio conclusivo e non di eventuali ritardi accumulati nel percorso universitario precedente.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- rego_0/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">In corso <img alt="sort" id="sorticon_4_18" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rego_1/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">1° anno fuori corso <img alt="sort" id="sorticon_4_19" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rego_2/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">2° anno fuori corso <img alt="sort" id="sorticon_4_20" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rego_3/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">3° anno fuori corso <img alt="sort" id="sorticon_4_21" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rego_4/numlau -->
+
+                <tr class="voceodd">
+                    <th colspan="1">4° anno fuori corso <img alt="sort" id="sorticon_4_22" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rego_5/numlau -->
+
+                <tr class="voceeven">
+                    <th colspan="1">5° anno fuori corso e oltre <img alt="sort" id="sorticon_4_23" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- durm -->
+
+                <tr class="gruppoodd">
+                    <th colspan="1">Durata degli studi (medie, in anni)<span onmouseover="Tip('<b>Durata degli studi</b> La durata degli studi di un laureato è l’intervallo di tempo trascorso fra la data convenzionale del 5 novembre dell’anno di immatricolazione e la data di laurea. Per le lauree magistrali è l’intervallo fra il 5 novembre dell’anno di iscrizione al biennio conclusivo e la data di laurea.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_4_24" src="spacer.gif" border="0" width="12" height="12"></th>
+                    <td class="datobold">*</td>
+                </tr><!-- ritl -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Ritardo alla laurea (medie, in anni)<span onmouseover="Tip('<b>Ritardo alla laurea</b> Il ritardo alla laurea di un laureato è la parte “irregolare” (fuori corso) degli studi universitari (per le lauree magistrali, la parte “irregolare” del biennio conclusivo) e tiene conto anche del numero dei mesi e dei giorni trascorsi fra la conclusione dell’anno accademico (30 aprile) e la data di laurea.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_4_25" src="spacer.gif" border="0" width="12" height="12"></th>
+                    <td class="datobold">*</td>
+                </tr><!-- indm -->
+
+                <tr class="gruppoodd">
+                    <th colspan="1">Indice di ritardo (rapporto fra ritardo e durata normale del corso)<span
+                            onmouseover="Tip('<b>Indice di ritardo</b> L’indice di ritardo è il rapporto fra il ritardo alla laurea e la durata normale del corso.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_4_26" src="spacer.gif" border="0" width="12" height="12"></th>
+                    <td class="datobold">*</td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati6" summary="5. CONDIZIONI DI STUDIO" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo6">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione5">5. CONDIZIONI DI STUDIO</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore6">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- 1oraviaggio -->
+
+                <tr class="gruppoeven">
+                    <th>Hanno alloggiato a meno di un'ora di viaggio dalla sede degli studi (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- r104_45/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Più del 50% della durata degli studi <img alt="sort" id="sorticon_5_4" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r104_12/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Meno del 50% <img alt="sort" id="sorticon_5_5" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- frequenzaregolare -->
+
+                <tr class="gruppoodd">
+                    <th>Hanno frequentato regolarmente (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- r105_1/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Più del 75% degli insegnamenti previsti <img alt="sort" id="sorticon_5_7" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r105_2/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Tra il 50% e il 75% <img alt="sort" id="sorticon_5_8" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r105_3/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Tra il 25% e il 50% <img alt="sort" id="sorticon_5_9" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r105_4/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Meno del 25% <img alt="sort" id="sorticon_5_10" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r153/numques -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Hanno usufruito del servizio di borse di studio (%) <img alt="sort" id="sorticon_5_11"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- este_1/numques -->
+
+                <tr class="gruppoodd">
+                    <th colspan="1">Hanno svolto periodi di studio all'estero durante il biennio magistrale (%) <img
+                            alt="sort" id="sorticon_5_12" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- ester_si_1/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Con Erasmus o altro programma dell'Unione Europea <img alt="sort" id="sorticon_5_13"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- ester_si_2/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Altra esperienza riconosciuta dal corso di studi <img alt="sort" id="sorticon_5_14"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- ester_si_3/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Iniziativa personale <img alt="sort" id="sorticon_5_15" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- este_2/numques -->
+
+                <tr class="voceboldodd">
+                    <th colspan="1">Non hanno compiuto studi all'estero <img alt="sort" id="sorticon_5_16" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- esam/numques -->
+
+                <tr class="voceboldeven">
+                    <th colspan="1">1 o più esami all'estero convalidati (%) <img alt="sort" id="sorticon_5_17" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- tesi_1/numques -->
+
+                <tr class="voceboldodd">
+                    <th colspan="1">Hanno preparato all'estero una parte significativa della tesi (%) <img alt="sort"
+                            id="sorticon_5_18" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- tiro_1/numques -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Hanno svolto tirocini/stage o lavoro riconosciuti dal corso di laurea magistrale
+                        (%) <img alt="sort" id="sorticon_5_19" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- tird_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Tirocini organizzati dal corso e svolti presso l'università <img alt="sort" id="sorticon_5_20"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tird_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Tirocini organizzati dal corso e svolti al di fuori dell'università <img alt="sort"
+                            id="sorticon_5_21" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tird_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Attività di lavoro successivamente riconosciute dal corso <img alt="sort" id="sorticon_5_22"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tiro_2/numques -->
+
+                <tr class="voceboldeven">
+                    <th colspan="1">Nessuna esperienza di tirocinio o lavoro riconosciuto <img alt="sort" id="sorticon_5_23"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- mesi -->
+
+                <tr class="gruppoodd">
+                    <th colspan="1">Mesi impiegati per la tesi/prova finale (medie) <img alt="sort" id="sorticon_5_24"
+                            src="spacer.gif" border="0" width="12" height="12"></th>
+                    <td class="datobold">*</td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati7" summary="6. LAVORO DURANTE GLI STUDI" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo7">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione6">6. LAVORO DURANTE GLI
+                            STUDI</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore7">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- lavo_1/numques -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Hanno esperienze di lavoro (%)<span onmouseover="Tip('<b>Hanno esperienze di lavoro</b> I lavoratori-studenti sono i laureati che hanno dichiarato di avere svolto attività lavorative continuative a tempo pieno per almeno la metà della durata degli studi sia nel periodo delle lezioni universitarie sia al di fuori delle lezioni. Gli studenti-lavoratori sono tutti gli altri laureati che hanno compiuto esperienze di lavoro nel corso degli studi universitari.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_6_3" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- work_rig_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Lavoratori-studenti <img alt="sort" id="sorticon_6_4" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- work_rig_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Altre esperienze di lavoro con continuità a tempo pieno <img alt="sort" id="sorticon_6_5"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- work_rig_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Lavoro a tempo parziale <img alt="sort" id="sorticon_6_6" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- work_rig_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Lavoro occasionale, saltuario, stagionale <img alt="sort" id="sorticon_6_7" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- work_rig_5/numques -->
+
+                <tr class="voceboldodd">
+                    <th colspan="1">Nessuna esperienza di lavoro <img alt="sort" id="sorticon_6_8" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr><!-- r169_1/numques -->
+
+                <tr class="voceboldeven">
+                    <th colspan="1">Lavoro coerente con gli studi <img alt="sort" id="sorticon_6_9" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati8" summary="7. GIUDIZI SULL´ESPERIENZA UNIVERSITARIA" border="0" width="100" cellspacing="0"
+            style="table-layout: fixed;" class="datiprofilo8">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione7">7. GIUDIZI
+                            SULL'ESPERIENZA UNIVERSITARIA</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore8">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- soddisfatticds2 -->
+
+                <tr class="gruppoeven">
+                    <th>Sono complessivamente soddisfatti del corso di laurea magistrale (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- giudizio_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Decisamente sì <img alt="sort" id="sorticon_7_4" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- giudizio_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Più sì che no <img alt="sort" id="sorticon_7_5" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- giudizio_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Più no che sì <img alt="sort" id="sorticon_7_6" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- giudizio_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Decisamente no <img alt="sort" id="sorticon_7_7" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rapportodocenti -->
+
+                <tr class="gruppoodd">
+                    <th>Sono soddisfatti dei rapporti con i docenti in generale (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- rapdoc_1/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Decisamente sì <img alt="sort" id="sorticon_7_9" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rapdoc_2/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Più sì che no <img alt="sort" id="sorticon_7_10" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rapdoc_3/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Più no che sì <img alt="sort" id="sorticon_7_11" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rapdoc_4/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Decisamente no <img alt="sort" id="sorticon_7_12" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rapportostudenti -->
+
+                <tr class="gruppoeven">
+                    <th>Sono soddisfatti dei rapporti con gli studenti (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- rapstud_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Decisamente sì <img alt="sort" id="sorticon_7_14" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rapstud_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Più sì che no <img alt="sort" id="sorticon_7_15" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rapstud_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Più no che sì <img alt="sort" id="sorticon_7_16" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rapstud_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Decisamente no <img alt="sort" id="sorticon_7_17" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- valutazioneaule -->
+
+                <tr class="gruppoodd">
+                    <th>Valutazione delle aule (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- straule_1/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Sempre o quasi sempre adeguate <img alt="sort" id="sorticon_7_19" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- straule_2/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Spesso adeguate <img alt="sort" id="sorticon_7_20" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- straule_3/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Raramente adeguate <img alt="sort" id="sorticon_7_21" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- straule_4/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Mai adeguate <img alt="sort" id="sorticon_7_22" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- straule_5/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Non utilizzate <img alt="sort" id="sorticon_7_23" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- valutazionepostinformatiche -->
+
+                <tr class="gruppoodd">
+                    <th>Valutazione delle postazioni informatiche (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- r145_1/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Presenti e in numero adeguato <img alt="sort" id="sorticon_7_25" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r145_2/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Presenti, ma in numero inadeguato <img alt="sort" id="sorticon_7_26" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r145_3/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Non presenti <img alt="sort" id="sorticon_7_27" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r145_4/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Non utilizzate <img alt="sort" id="sorticon_7_28" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- valutazionebibl -->
+
+                <tr class="gruppoeven">
+                    <th>Valutazione delle biblioteche (prestito/consultazione, orari di apertura ...) (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- strblb_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Decisamente positiva <img alt="sort" id="sorticon_7_30" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- strblb_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Abbastanza positiva <img alt="sort" id="sorticon_7_31" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- strblb_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Abbastanza negativa <img alt="sort" id="sorticon_7_32" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- strblb_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Decisamente negativa <img alt="sort" id="sorticon_7_33" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- strblb_5/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Non utilizzate <img alt="sort" id="sorticon_7_34" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- valutazionelab -->
+
+                <tr class="gruppoeven">
+                    <th>Valutazione delle attrezzature per le altre attività didattiche (laboratori, attività pratiche,
+                        …) (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- strlab_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Sempre o quasi sempre adeguate <img alt="sort" id="sorticon_7_36" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- strlab_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Spesso adeguate <img alt="sort" id="sorticon_7_37" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- strlab_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Raramente adeguate <img alt="sort" id="sorticon_7_38" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- strlab_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Mai adeguate <img alt="sort" id="sorticon_7_39" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- strlab_5/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Non utilizzate <img alt="sort" id="sorticon_7_40" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- valutazionespazistud -->
+
+                <tr class="gruppoeven">
+                    <th>Valutazione degli spazi dedicati allo studio individuale (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- r148_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Presenti e adeguati <img alt="sort" id="sorticon_7_42" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r148_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Presenti, ma inadeguati <img alt="sort" id="sorticon_7_43" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r148_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Non presenti <img alt="sort" id="sorticon_7_44" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r148_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Non utilizzati <img alt="sort" id="sorticon_7_45" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- caricostudiadeguato -->
+
+                <tr class="gruppoodd">
+                    <th>Il carico di studio degli insegnamenti è stato adeguato alla durata del corso di studio? (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- r108_bis_5/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Decisamente sì <img alt="sort" id="sorticon_7_47" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r108_bis_4/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Più sì che no <img alt="sort" id="sorticon_7_48" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r108_bis_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Più no che sì <img alt="sort" id="sorticon_7_49" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- r108_bis_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Decisamente no <img alt="sort" id="sorticon_7_50" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- univdinuovo2 -->
+
+                <tr class="gruppoeven">
+                    <th>Si iscriverebbero di nuovo al corso di laurea magistrale? (%)<span onmouseover="Tip('<b>Si iscriverebbero di nuovo all’università</b> Per i laureati magistrali la formulazione è la seguente:<br/><i>Si iscriverebbero di nuovo al corso di laurea magistrale?<br/>- sì, allo stesso corso magistrale di questo Ateneo<br/>- sì, ad un altro corso magistrale di questo Ateneo<br/>- sì, allo stesso corso magistrale ma in un altro Ateneo<br/>- sì, ma ad un altro corso magistrale e in un altro Ateneo<br/>- non si iscriverebbero più a nessun corso di laurea magistrale</i>',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- indietro_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Sì, allo stesso corso magistrale dell'Ateneo <img alt="sort" id="sorticon_7_52" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- indietro_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Sì, ma ad un altro corso magistrale dell'Ateneo <img alt="sort" id="sorticon_7_53"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- indietro_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Sì, allo stesso corso magistrale, ma in un altro Ateneo <img alt="sort" id="sorticon_7_54"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- indietro_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Sì, ma ad un altro corso magistrale e in un altro Ateneo <img alt="sort" id="sorticon_7_55"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- indietro_5/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Non si iscriverebbero più a nessun corso di laurea magistrale <img alt="sort" id="sorticon_7_56"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati9" summary="8. CONOSCENZE LINGUISTICHE E INFORMATICHE" border="0" width="100" cellspacing="0"
+            style="table-layout: fixed;" class="datiprofilo9">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione8">8. CONOSCENZE
+                            LINGUISTICHE E INFORMATICHE</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore9">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- linguestraniere -->
+
+                <tr class="gruppoeven">
+                    <th>Lingue straniere: conoscenza "almeno buona" (%)<span onmouseover="Tip('<b>Lingue straniere: conoscenza «almeno buona»</b> Per la definizione dei livelli di conoscenza delle lingue straniere cfr. le Note metodologiche.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- gbs/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Inglese scritto <img alt="sort" id="sorticon_8_4" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- gbp/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Inglese parlato <img alt="sort" id="sorticon_8_5" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- frs/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Francese scritto <img alt="sort" id="sorticon_8_6" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- frp/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Francese parlato <img alt="sort" id="sorticon_8_7" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sps/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Spagnolo scritto <img alt="sort" id="sorticon_8_8" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- spp/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Spagnolo parlato <img alt="sort" id="sorticon_8_9" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tes/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Tedesco scritto <img alt="sort" id="sorticon_8_10" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tep/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Tedesco parlato <img alt="sort" id="sorticon_8_11" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- conoscenzainformatica -->
+
+                <tr class="gruppoodd">
+                    <th>Strumenti informatici: conoscenza "almeno buona" (%)<span onmouseover="Tip('<b>Strumenti informatici: conoscenza «almeno buona»</b> Per la definizione delle singole conoscenze informatiche cfr. le Note metodologiche.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp;</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- iint/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Navigazione in Internet e comunicazione in rete <img alt="sort" id="sorticon_8_13"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- iwp/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Word processor <img alt="sort" id="sorticon_8_14" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- ifoe/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Fogli elettronici <img alt="sort" id="sorticon_8_15" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- ipres/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Strumenti di presentazione <img alt="sort" id="sorticon_8_16" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- iso/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Sistemi operativi <img alt="sort" id="sorticon_8_17" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- imm/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Multimedia <img alt="sort" id="sorticon_8_18" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- ilp/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Linguaggi di programmazione <img alt="sort" id="sorticon_8_19" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- idb/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Data base <img alt="sort" id="sorticon_8_20" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- iweb/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Realizzazione siti web <img alt="sort" id="sorticon_8_21" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- iret/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Reti di trasmissione dati <img alt="sort" id="sorticon_8_22" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- icad/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">CAD/CAM/CAE - progettazione assistita <img alt="sort" id="sorticon_8_23" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati10" summary="9. PROSPETTIVE DI STUDIO" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo10">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione9">9. PROSPETTIVE DI STUDIO</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore10">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- ints_1/numques -->
+
+                <tr class="gruppoeven">
+                    <th colspan="1">Intendono proseguire gli studi (%) <img alt="sort" id="sorticon_9_3" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_8/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Laurea triennale <img alt="sort" id="sorticon_9_4" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_9/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Altra laurea magistrale <img alt="sort" id="sorticon_9_5" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_14/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Laurea magistrale a ciclo unico <img alt="sort" id="sorticon_9_6" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_1/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Dottorato di ricerca <img alt="sort" id="sorticon_9_7" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_101/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Diploma accademico (Alta Formazione Artistica e Musicale)<span onmouseover="Tip('<b>Diploma accademico (Alta Formazione Artistica e Musicale)</b> Sono compresi i laureati che intendono proseguire gli studi con un diploma accademico di 1° livello, di 2° livello e di Formazione alla Ricerca.',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_9_8" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_3/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Scuola di specializzazione post-laurea <img alt="sort" id="sorticon_9_9" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_10/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Master universitario <img alt="sort" id="sorticon_9_10" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_11/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Altro tipo di master o corso di perfezionamento <img alt="sort" id="sorticon_9_11"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_6/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Tirocinio, praticantato <img alt="sort" id="sorticon_9_12" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_5/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Attività sostenuta da borsa o assegno di studio <img alt="sort" id="sorticon_9_13"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- sii_7/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Altre attività di qualificazione professionale <img alt="sort" id="sorticon_9_14"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- ints_2/numques -->
+
+                <tr class="voceboldeven">
+                    <th colspan="1">Non intendono proseguire <img alt="sort" id="sorticon_9_15" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="datobold">*</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <table id="dati11" summary="10. PROSPETTIVE DI LAVORO" border="0" width="100" cellspacing="0" style="table-layout: fixed;"
+            class="datiprofilo11">
+            <tbody>
+                <tr>
+
+                    <td width="400"></td>
+                    <td width="100"></td>
+                </tr>
+                <tr class="intestazione">
+                    <td valign="top" class="titolo" colspan="1" rowspan="2"><a name="Sezione10">10. PROSPETTIVE DI
+                            LAVORO</a></td>
+                    <td class="header1" rowspan="2"><span onmouseover="return escape(myget(this,&quot;collettivo&quot;));">Collettivo<br>selezionato</span><span
+                            class="ref"><span onmouseover="Tip('I dati non vengono visualizzati per collettivi con meno di 5 laureati',WIDTH,300,SHADOW, true);"
+                                onmouseout="UnTip();"><sup>(1)</sup></span>&nbsp;</span>
+                        <div class="navigatore" id="navigatore11">&nbsp;</div>
+                    </td>
+                </tr>
+                <tr class="intestazione">
+                    <td></td>
+                </tr><!-- aspricercalavoro -->
+
+                <tr class="gruppoeven">
+                    <th>Aspetti ritenuti rilevanti nella ricerca del lavoro: decisamente sì (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- rpro/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Acquisizione di professionalità <img alt="sort" id="sorticon_10_4" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rcar/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Possibilità di carriera <img alt="sort" id="sorticon_10_5" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rgua/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Possibilità di guadagno <img alt="sort" id="sorticon_10_6" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rsta/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Stabilità/sicurezza del posto di lavoro <img alt="sort" id="sorticon_10_7" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rcul/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Rispondenza a interessi culturali <img alt="sort" id="sorticon_10_8" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rcoe/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Coerenza con gli studi <img alt="sort" id="sorticon_10_9" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rsoc/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Utilità sociale del lavoro <img alt="sort" id="sorticon_10_10" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rprest/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Prestigio ricevuto dal lavoro <img alt="sort" id="sorticon_10_11" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rpart/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Coinvolgimento e partecipazione all’attività lavorativa e ai processi decisionali
+                        <img alt="sort" id="sorticon_10_12" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- raut/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Indipendenza o autonomia <img alt="sort" id="sorticon_10_13" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rfles/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Flessibilità dell’orario di lavoro <img alt="sort" id="sorticon_10_14" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rcoll/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Rapporti con i colleghi sul luogo di lavoro <img alt="sort" id="sorticon_10_15" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rllav/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Luogo di lavoro (ubicazione, caratteristiche fisiche dell’ambiente di lavoro) <img
+                            alt="sort" id="sorticon_10_16" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rtl/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Tempo libero <img alt="sort" id="sorticon_10_17" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rcont/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Opportunità di contatti con l'estero <img alt="sort" id="sorticon_10_18" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- rcomp/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Possibilità di utilizzare al meglio le competenze acquisite <img alt="sort" id="sorticon_10_19"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tipolavoro2 -->
+
+                <tr class="gruppoodd">
+                    <th>Sono interessati a lavorare nei seguenti settori: decisamente sì (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- pubbl/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Pubblico <img alt="sort" id="sorticon_10_21" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- privat/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Privato (compreso l'avvio di un'attività autonoma/in conto proprio) <img alt="sort"
+                            id="sorticon_10_22" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- disponibilitacontrattuale -->
+
+                <tr class="gruppoeven">
+                    <th>Disponibilità a lavorare per tipo di relazione contrattuale: decisamente sì (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- orario -->
+
+                <tr class="gruppoodd">
+                    <th>ORARIO/MODALITA' LAVORATIVA</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- ctp/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Tempo pieno <img alt="sort" id="sorticon_10_25" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- cpt/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Part-time <img alt="sort" id="sorticon_10_26" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- ctel/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Telelavoro <img alt="sort" id="sorticon_10_27" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- contratto -->
+
+                <tr class="gruppoodd">
+                    <th>CONTRATTO</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- ccres/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">A tutele crescenti<span onmouseover="Tip('<b>A tutele crescenti</b> Si tratta del contratto a tempo indeterminato introdotto con il Jobs Act e in vigore dal 07/03/2015 (Dlgs. 4 marzo 2015, n. 23).',WIDTH,300,SHADOW, true);"
+                            onmouseout="UnTip();"><img alt="" hspace="5" border="0" src="nota.gif"></span>&nbsp; <img
+                            alt="sort" id="sorticon_10_29" src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- cdet/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">A tempo determinato <img alt="sort" id="sorticon_10_30" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- csta/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Stage <img alt="sort" id="sorticon_10_31" src="spacer.gif" width="12" height="12"
+                            border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- capp/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Apprendistato <img alt="sort" id="sorticon_10_32" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- cint/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Somministrazione di lavoro (ex interinale) <img alt="sort" id="sorticon_10_33" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- cacc/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Occasionale accessorio (voucher o buoni lavoro) <img alt="sort" id="sorticon_10_34"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- cauto/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Autonomo/in conto proprio <img alt="sort" id="sorticon_10_35" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- lavoroareegeografiche -->
+
+                <tr class="gruppoodd">
+                    <th>Disponibilità a lavorare nelle seguenti aree geografiche: decisamente sì (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- dpro/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Provincia di residenza <img alt="sort" id="sorticon_10_37" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- dprostu/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Provincia degli studi <img alt="sort" id="sorticon_10_38" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- dregstu/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Regione degli studi <img alt="sort" id="sorticon_10_39" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- dset/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Italia settentrionale <img alt="sort" id="sorticon_10_40" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- dcen/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Italia centrale <img alt="sort" id="sorticon_10_41" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- dmer/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Italia meridionale <img alt="sort" id="sorticon_10_42" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- deur/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Stato europeo <img alt="sort" id="sorticon_10_43" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- dext/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Stato extraeuropeo <img alt="sort" id="sorticon_10_44" src="spacer.gif" width="12"
+                            height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- trasfertelavoro -->
+
+                <tr class="gruppoeven">
+                    <th>Disponibilità ad effettuare trasferte di lavoro (%)</th>
+                    <td class="">&nbsp;</td>
+                </tr><!-- tras_1/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Sì, anche con trasferimenti di residenza <img alt="sort" id="sorticon_10_46" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tras_2/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Sì, anche frequenti (senza cambi di residenza) <img alt="sort" id="sorticon_10_47"
+                            src="spacer.gif" width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tras_3/numques -->
+
+                <tr class="voceodd">
+                    <th colspan="1">Sì, ma solo in numero limitato <img alt="sort" id="sorticon_10_48" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr><!-- tras_4/numques -->
+
+                <tr class="voceeven">
+                    <th colspan="1">Non disponibili a trasferte <img alt="sort" id="sorticon_10_49" src="spacer.gif"
+                            width="12" height="12" border="0"></th>
+                    <td class="dato">*</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="footnotes" class="footnote" style="width: 600">
+        <div>
+            <a class="footnotehref" name="footnote1" id="footnote1">(1)</a> I dati non vengono visualizzati per
+            collettivi con meno di 5 laureati</div>
+    </div>
+    <div id="divfootnote2" class="footnote">
+        <hr noshade="noshade" size="1"><span class="footer">Profilo dei laureati<br>Aprile 2018 - Consorzio
+            Interuniversitario AlmaLaurea<br><br>Salvo diversa indicazione, si autorizza la riproduzione a fini non
+            commerciali e con citazione della fonte</span><br></div>
+    <form name="pdfForm" id="pdfForm" method="post" action="/cgi-asp/pdfConverter/PDFPrint_ISO8859_1.aspx">
+        <input type="hidden" name="baseURL" id="baseURL" value="">
+        <input type="hidden" name="ENCODING" id="ENCODING" value="iso-8859-1">
+        <input type="hidden" name="ORIENTATION" id="ORIENTATION" value="V">
+        <input type="hidden" name="text2pdf" id="text2pdf" value="">
+        <input type="hidden" name="PAGETITLE" id="PAGETITLE" value="Scheda_Dati">
+    </form>
+
+    <script type="text/javascript" src="profilo.js"></script>
+    <script type="text/javascript" src="tendine.js?id=1"></script>
+    <script type="text/javascript" src="wz_tooltip.js"></script>
+    <script type="text/javascript" src="sort.js"></script>
+    <script type="text/javascript" src="grafici.js"></script>
+
+</body>
+
+</html>
