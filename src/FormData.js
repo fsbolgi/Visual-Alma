@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import FormControl from "./FormControl";
 import { Container, Button, Form } from 'react-bootstrap';
-
 import { getAlmalaureaData } from './get.js';
 import { get } from 'http';
-
+import {getExampleData} from './getExampleData.js'
 
 class FormData extends Component {
 
@@ -17,9 +16,8 @@ class FormData extends Component {
         event.preventDefault();
         let anno = event.currentTarget.formAnno.value;
         let ateneo = event.currentTarget.formAteneo.value;
-        console.log(anno);
-        console.log(ateneo);
-        getAlmalaureaData({"anno": anno, "ateneo": ateneo});
+        // getAlmalaureaData({"anno": anno, "ateneo": ateneo});
+        console.log(getExampleData())
     }
 
     render() {
