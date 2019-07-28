@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import FormControl from "./FormControl";
 import { Container, Button, Form } from 'react-bootstrap';
 
+import { getAlmalaureaData } from './get.js';
+import { get } from 'http';
+
+
 class FormData extends Component {
 
     constructor(props) {
@@ -15,6 +19,7 @@ class FormData extends Component {
         let ateneo = event.currentTarget.formAteneo.value;
         console.log(anno);
         console.log(ateneo);
+        //new getAlmalaureaData();
     }
 
     render() {
@@ -25,6 +30,7 @@ class FormData extends Component {
                     controlId="formAnno"
                     controlLabel="ANNO"
                     arrayOptions={[
+                        { name: 2018, val: 2018},
                         { name: 2017, val: 2017},
                         { name: 2016, val: 2016},
                         { name: 2015, val: 2015},

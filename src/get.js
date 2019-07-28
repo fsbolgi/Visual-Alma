@@ -12,38 +12,28 @@ var ULR = require("url-parse");
 //         return false;
 // }
 
-// Parameter loading for Testing 
-let params = JSON.parse(fs.readFileSync("uri.json"));
-let header = "http://www2.almalaurea.it/cgi-php/universita/statistiche/visualizza.php?";
+// // Parameter loading for Testing 
+// let params = JSON.parse(fs.readFileSync("uri.json"));
 
-// Build url
-let uri = header;
+/**
+ * Handler function for 'request'
+ */
+function requestHanlder(error, response, body) {
 
-for(let key in params) {
-    uri += key + 
-            "=" +
-            params[key] + 
-            "&";
-}
-uri = uri.slice(0, -1); // Remove last character == &
 
-// Tables to iterate on, built explicitly to comment with their content
-var interests = ["dati2",   // Anagrafica
-                 "dati3",   // Origine sociale
-                 "dati4",   // Studi secondari superiori
-                 "dati5",   // Riuscita negli studi universitari
-                 "dati6",   // Condizioni di studio
-                 "dati7",   // Lavoro durante gli studi
-                 "dati8",   // Giudizi sull'esperienza universitaria
-                 "dati9",   // Conoscenze linguistiche ed informatiche
-                 "dati10",  // Prospettive di studio
-                 "dati11"]; // Prospettive di lavoro
-
-//                 
-// Load page                 
-//
-request({uri: uri}, function(error, response, body) {
-
+    // Tables to iterate on, built explicitly to comment with their content
+    var interests = ["dati2",   // Anagrafica
+                     "dati3",   // Origine sociale
+                     "dati4",   // Studi secondari superiori
+                     "dati5",   // Riuscita negli studi universitari
+                     "dati6",   // Condizioni di studio
+                     "dati7",   // Lavoro durante gli studi
+                     "dati8",   // Giudizi sull'esperienza universitaria
+                     "dati9",   // Conoscenze linguistiche ed informatiche
+                     "dati10",  // Prospettive di studio
+                     "dati11"]; // Prospettive di lavoro
+                     
+                     
     // TODO Check response == 200
     if(error) {
         console.log(error);
@@ -106,4 +96,60 @@ request({uri: uri}, function(error, response, body) {
         fs.writeFileSync("./table.json", json, "utf8");
         // Invece invia a chiamante
     }
-});
+}
+
+
+/**
+ * Almalaurea Params
+ * key-value: example, "anno": "2017"
+ * Update with these parameters the defaul params object
+ */
+export function getAlmalaureaData(paramsInput) {
+
+    let header = "http://www2.almalaurea.it/cgi-php/universita/statistiche/visualizza.php?";
+    let uri = header;
+    // Replace (partially) default params with those in input
+    // Params for the search in the url (order is important)
+    let params = {
+        "anno": "" + (new Date().getFullYear() - 1),    // Default: current year - 1
+        "corstipo": "tutti",                    
+        "ateneo": "tutti",
+        "facolta": "tutti",
+        "gruppo": "tutti",
+        "pa": "tutti",
+        "classe": "tutti",
+        "corso": "tutti",
+        "postcorso": "tutti",
+        "isstella": "0",
+        "disaggregazione": "",
+        "LANG": "it",
+        "CONFIG": "profilo"
+    }
+
+    for(let k in paramsInput) {
+
+        if(params[k] == undefined)
+            console.log(k + ": This param is not a supported")
+        else
+            params[k] = paramsInput[k]
+    }
+
+
+    // Build online ulr
+    for(let key in params) {
+        uri += key + 
+                "=" +
+                params[key] + 
+                "&";
+    }
+    uri = uri.slice(0, -1); // Remove last character == &
+
+    //                 
+    // Load online Almalaurea page and get its HTML                 
+    //
+    request({uri: uri}, requestHanlder);
+}
+
+
+// Test correctness, call 
+getAlmalaureaData({"anno": "2017", "ateneo": "70024"});
