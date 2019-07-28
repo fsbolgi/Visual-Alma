@@ -19,7 +19,7 @@ class FormData extends Component {
         let ateneo = event.currentTarget.formAteneo.value;
         console.log(anno);
         console.log(ateneo);
-        //new getAlmalaureaData();
+        getAlmalaureaData({"anno": anno, "ateneo": ateneo});
     }
 
     render() {

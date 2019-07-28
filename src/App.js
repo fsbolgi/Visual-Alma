@@ -3,7 +3,7 @@ import './App.css';
 import FormData from "./FormData";
 import { Container, Col, Row, Button } from 'react-bootstrap';
 
-import * as d3 from "d3";
+//import * as d3 from "d3";
 
 
 class App extends Component {

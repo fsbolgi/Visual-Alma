@@ -93,7 +93,7 @@ function requestHanlder(error, response, body) {
 
         console.log(parsedTable);
         const json = JSON.stringify(parsedTable, null, 2);
-        fs.writeFileSync("./table.json", json, "utf8");
+        //fs.writeFileSync("./table.json", json, "utf8");
         // Invece invia a chiamante
     }
 }
@@ -152,4 +152,4 @@ export function getAlmalaureaData(paramsInput) {
 
 
 // Test correctness, call 
-getAlmalaureaData({"anno": "2017", "ateneo": "70024"});
+//getAlmalaureaData({"anno": "2017", "ateneo": "70024"});
